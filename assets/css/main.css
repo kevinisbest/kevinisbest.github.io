@@ -3055,16 +3055,16 @@ table.alt tbody tr td {
 
 body {
     position: relative;
-    padding-top: 4em;
+    padding-top: 3em;
 }
 
 #header {
     background: #1c1c1c;
     color: #d5d5d5;
     cursor: default;
-    height: 4em;
+    height: 3em;
     left: 0;
-    line-height: 4em;
+    line-height: 3em;
     position: fixed;
     text-align: right;
     top: 0;

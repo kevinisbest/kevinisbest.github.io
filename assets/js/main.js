@@ -78,7 +78,7 @@
 				// Poptrox.
 					$content.poptrox({
 						usePopupCaption: true,
-                        usePopupCloser:	false,
+                        usePopupCloser:	true,
                         useBodyOverflow: true,
                         popupPadding:15,
                         popupCaptionHeight:40,

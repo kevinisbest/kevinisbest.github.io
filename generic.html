@@ -58,8 +58,11 @@
                     <div class="image fit">
                         <img src="images/_4.gif" alt="" />
                     </div>
-                    <p>This is base on fast-neural-style for my<a href="https://www.csie.ntu.edu.tw/~ming/courses/icg/"> ICG(Interactive Computer Graphics 2017 Fall)</a> term project.</p><h3>Attention:</h3> I modified Tensorflow source code to make sure the program can continue to show the pictures after the session.<h4>in:</h4><p>/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/tensorflow/python/platform/app.py</p><h4></h4>
+                    <p>This is base on fast-neural-style for my<a href="https://www.csie.ntu.edu.tw/~ming/courses/icg/"> ICG(Interactive Computer Graphics 2017 Fall)</a> term project.</p><h3>Attention:</h3> I modified Tensorflow source code to make sure the program can continue to show the pictures after the session.<p><h4>in:</h4><p>/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/tensorflow/python/platform/app.py</p><h4>form: </h4><p>_sys.exit(main(_sys.argv[:1] + flags_passthrough))</p><h4>to: </h4><p>main(_sys.argv[:1] + flags_passthrough)</p><p>* remember to change back after running the program.</p>
                 </div>
+                <ul class="actions">
+                    <li>more detail:<br><a href="https://github.com/kevinisbest/fast-neural-style-tensorflow" target="_blank" class="button alt">github</a></li>
+                </ul>
             </article>
         </div>
     </section>

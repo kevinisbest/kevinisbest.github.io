@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Message For You</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           RESET & BASE STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Permanent Marker', cursive;
+            background: url('../images/valentine/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+
+        /* ========================================
+           SPACE BACKGROUND WITH PARTICLES
+           ======================================== */
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #52ff00;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #52ff00, 0 0 20px #52ff00;
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            25% { transform: translateY(-100px) translateX(50px); opacity: 0.8; }
+            50% { transform: translateY(-50px) translateX(-30px); opacity: 0.5; }
+            75% { transform: translateY(-150px) translateX(20px); opacity: 0.7; }
+        }
+
+        /* ========================================
+           MAIN CONTAINER
+           ======================================== */
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* ========================================
+           MULTIVERSE PORTAL GALLERY - FLOATING RANDOM
+           ======================================== */
+        .portal-card {
+            position: fixed;
+            width: 140px;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 20px rgba(82, 255, 0, 0.7),
+                0 0 40px rgba(82, 255, 0, 0.4);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .portal-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ========================================
+           TITLE SECTION
+           ======================================== */
+        .title {
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px #52ff00, 0 0 40px rgba(0,0,0,0.8);
+            line-height: 1.4;
+            position: relative;
+            z-index: 10;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: #52ff00;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px #52ff00, 0 0 30px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ========================================
+           YES BUTTON WITH MR. MEESEEKS
+           ======================================== */
+        .yes-container {
+            position: relative;
+            display: inline-block;
+            transition: transform 0.3s ease;
+            z-index: 10;
+        }
+
+        .meeseeks {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: auto;
+            pointer-events: none;
+            filter: drop-shadow(0 0 20px rgba(82, 255, 0, 0.8));
+            animation: meeseeks-hold 1.5s infinite ease-in-out;
+            z-index: -1;
+            margin-top: 5px;
+        }
+
+        @keyframes meeseeks-hold {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(-1deg); }
+            50% { transform: translateX(-50%) translateY(-8px) rotate(1deg); }
+        }
+
+        .btn {
+            padding: 15px 50px;
+            font-size: 1.4rem;
+            font-family: 'Permanent Marker', cursive;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #52ff00, #00cc44);
+            color: #0b0c10;
+            box-shadow: 0 0 20px rgba(82, 255, 0, 0.5);
+        }
+
+        .btn-yes:hover {
+            box-shadow: 0 0 40px rgba(82, 255, 0, 0.8);
+        }
+
+        .btn-yes:active {
+            transform: scale(0.95);
+        }
+
+        /* NO Button - Glitchy style */
+        .btn-no {
+            position: fixed;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.4);
+            animation: glitch 2s infinite;
+            z-index: 50;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); opacity: 1; }
+            92% { transform: translate(-2px, 1px); opacity: 0.8; }
+            94% { transform: translate(2px, -1px); opacity: 0.9; }
+            96% { transform: translate(-1px, -1px); opacity: 0.7; }
+            98% { transform: translate(1px, 1px); opacity: 1; }
+        }
+
+        .btn-no.portal-jump {
+            animation: teleport-out 0.15s ease-in forwards;
+        }
+
+        @keyframes teleport-out {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        .btn-no.portal-appear {
+            animation: teleport-in 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes teleport-in {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        /* Portal flash effect */
+        .portal-flash {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #52ff00 0%, transparent 70%);
+            pointer-events: none;
+            animation: flash 0.3s ease-out forwards;
+            z-index: 100;
+        }
+
+        @keyframes flash {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
+        /* ========================================
+           CELEBRATION OVERLAY
+           ======================================== */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 12, 16, 0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .celebration.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .celebration-content {
+            text-align: center;
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .celebration-title {
+            font-size: clamp(1.8rem, 7vw, 3.5rem);
+            color: #52ff00;
+            text-shadow: 0 0 30px #52ff00;
+            margin-bottom: 20px;
+        }
+
+        .celebration-message {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            margin-bottom: 20px;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .kiss-img {
+            width: clamp(200px, 60vw, 350px);
+            border-radius: 20px;
+            box-shadow: 
+                0 0 30px rgba(82, 255, 0, 0.5),
+                0 0 60px rgba(255, 105, 180, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .hearts {
+            font-size: 2.5rem;
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ========================================
+           CONFETTI
+           ======================================== */
+        .confetti {
+            position: fixed;
+            width: auto;
+            height: auto;
+            top: -50px;
+            z-index: 1001;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to { top: 110%; transform: rotate(720deg); }
+        }
+
+        /* ========================================
+           RESPONSIVE ADJUSTMENTS
+           ======================================== */
+        @media (max-width: 480px) {
+            .portal-card {
+                width: 100px;
+                height: 130px;
+            }
+
+            .meeseeks {
+                width: 70px;
+                margin-top: -20px;
+            }
+
+            .btn {
+                padding: 12px 35px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .portal-card {
+                width: 180px;
+                height: 230px;
+            }
+            
+            .meeseeks {
+                width: 110px;
+                margin-top: -30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Space Background with Particles -->
+    <div class="space-bg" id="space-bg"></div>
+
+    <!-- Floating Portal Cards -->
+    <div class="portal-card" id="portal1">
+        <img src="../images/valentine/portal1.jpeg" alt="Universe 1">
+    </div>
+    <div class="portal-card" id="portal2">
+        <img src="../images/valentine/portal2.jpeg" alt="Universe 2">
+    </div>
+    <div class="portal-card" id="portal3">
+        <img src="../images/valentine/portal4.jpeg" alt="Universe 4">
+    </div>
+    <div class="portal-card" id="portal4">
+        <img src="../images/valentine/portal5.jpeg" alt="Universe 5">
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Title -->
+        <h1 class="title">We are valentine in 99.999% of universes.</h1>
+        <p class="subtitle">Be my Valentine in this universe too?</p>
+
+        <!-- YES Button with Mr. Meeseeks -->
+        <div class="yes-container" id="yes-container">
+            <img src="../images/valentine/Mr_Meeseeks.png" alt="Mr. Meeseeks" class="meeseeks" id="meeseeks">
+            <button class="btn btn-yes" id="yes-btn">Yes!</button>
+        </div>
+        
+        <!-- NO Button (will be positioned randomly) -->
+        <button class="btn btn-no" id="no-btn">No</button>
+    </div>
+
+    <!-- Celebration Overlay -->
+    <div class="celebration" id="celebration">
+        <div class="celebration-content">
+            <h2 class="celebration-title">Wubba Lubba Dub Dub!</h2>
+            <h2 class="celebration-title">You found me!</h2>
+            <img src="../images/valentine/kiss.JPG" alt="Our Kiss" class="kiss-img">
+            <p class="celebration-message">
+                Across infinite timelines,<br>
+                my heart always finds you too.<br>
+            </p>
+            <div class="hearts">💚💕💚</div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // PARTICLE SYSTEM
+        // ========================================
+        const spaceBg = document.getElementById('space-bg');
+        const particleCount = 25;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+            spaceBg.appendChild(particle);
+        }
+
+        // ========================================
+        // RANDOM PORTAL POSITIONS & FLOATING WITH COLLISION
+        // ========================================
+        const portalCards = document.querySelectorAll('.portal-card');
+        const centerAvoid = { minX: 15, maxX: 85, minY: 25, maxY: 90 };
+        
+        // Portal state tracking
+        const portals = Array.from(portalCards).map((card, index) => ({
+            element: card,
+            x: 0,
+            y: 0,
+            vx: (Math.random() - 0.5) * 0.5, // velocity x
+            vy: (Math.random() - 0.5) * 0.5, // velocity y
+            width: card.offsetWidth || 140,
+            height: card.offsetHeight || 180
+        }));
+        
+        // Generate initial random positions avoiding overlaps
+        const generateNonOverlappingPosition = (portal, existingPortals) => {
+            const padding = 3;
+            let x, y, attempts = 0;
+            const maxAttempts = 100;
+            
+            do {
+                x = padding + Math.random() * (100 - padding * 2 - 20);
+                y = padding + Math.random() * (100 - padding * 2 - 25);
+                attempts++;
+                
+                // Check center avoidance
+                const inCenter = x > centerAvoid.minX && x < centerAvoid.maxX && 
+                                 y > centerAvoid.minY && y < centerAvoid.maxY;
+                
+                // Check overlap with existing portals
+                let overlaps = false;
+                for (const other of existingPortals) {
+                    const dx = Math.abs(x - other.x);
+                    const dy = Math.abs(y - other.y);
+                    if (dx < 18 && dy < 22) { // minimum distance in percentage
+                        overlaps = true;
+                        break;
+                    }
+                }
+                
+                if ((!inCenter && !overlaps) || attempts >= maxAttempts) break;
+            } while (true);
+            
+            return { x, y };
+        };
+        
+        // Initialize positions
+        const placedPortals = [];
+        portals.forEach((portal, index) => {
+            const pos = generateNonOverlappingPosition(portal, placedPortals);
+            portal.x = pos.x;
+            portal.y = pos.y;
+            portal.element.style.left = pos.x + '%';
+            portal.element.style.top = pos.y + '%';
+            placedPortals.push(portal);
+        });
+        
+        // Check collision between two portals
+        const checkCollision = (p1, p2) => {
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const minDistX = 15; // percentage
+            const minDistY = 18;
+            return Math.abs(dx) < minDistX && Math.abs(dy) < minDistY;
+        };
+        
+        // Bounce portals apart
+        const bounceApart = (p1, p2) => {
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const angle = Math.atan2(dy, dx);
+            const bounceForce = 0.3;
+            
+            p1.vx += Math.cos(angle) * bounceForce;
+            p1.vy += Math.sin(angle) * bounceForce;
+            p2.vx -= Math.cos(angle) * bounceForce;
+            p2.vy -= Math.sin(angle) * bounceForce;
+        };
+        
+        // Animation loop
+        const animatePortals = () => {
+            portals.forEach((portal, i) => {
+                // Add random drift
+                portal.vx += (Math.random() - 0.5) * 0.02;
+                portal.vy += (Math.random() - 0.5) * 0.02;
+                
+                // Apply velocity
+                portal.x += portal.vx;
+                portal.y += portal.vy;
+                
+                // Damping
+                portal.vx *= 0.98;
+                portal.vy *= 0.98;
+                
+                // Boundary bounce
+                if (portal.x < 2) { portal.x = 2; portal.vx = Math.abs(portal.vx) * 0.8; }
+                if (portal.x > 82) { portal.x = 82; portal.vx = -Math.abs(portal.vx) * 0.8; }
+                if (portal.y < 2) { portal.y = 2; portal.vy = Math.abs(portal.vy) * 0.8; }
+                if (portal.y > 75) { portal.y = 75; portal.vy = -Math.abs(portal.vy) * 0.8; }
+                
+                // Center avoidance force
+                if (portal.x > centerAvoid.minX && portal.x < centerAvoid.maxX &&
+                    portal.y > centerAvoid.minY && portal.y < centerAvoid.maxY) {
+                    const centerX = (centerAvoid.minX + centerAvoid.maxX) / 2;
+                    const centerY = (centerAvoid.minY + centerAvoid.maxY) / 2;
+                    portal.vx += (portal.x < centerX ? -0.1 : 0.1);
+                    portal.vy += (portal.y < centerY ? -0.1 : 0.1);
+                }
+                
+                // Check collision with other portals
+                for (let j = i + 1; j < portals.length; j++) {
+                    if (checkCollision(portal, portals[j])) {
+                        bounceApart(portal, portals[j]);
+                    }
+                }
+                
+                // Apply position with slight rotation
+                const rotation = portal.vx * 3;
+                portal.element.style.left = portal.x + '%';
+                portal.element.style.top = portal.y + '%';
+                portal.element.style.transform = `rotate(${rotation}deg)`;
+            });
+            
+            requestAnimationFrame(animatePortals);
+        };
+        
+        // Start animation
+        animatePortals();
+
+        // ========================================
+        // ELEMENTS
+        // ========================================
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const yesContainer = document.getElementById('yes-container');
+        const meeseeks = document.getElementById('meeseeks');
+        const celebration = document.getElementById('celebration');
+        
+        let isAnimating = false;
+        let yesScale = 1;
+
+        // ========================================
+        // PORTAL FLASH EFFECT
+        // ========================================
+        const createPortalFlash = (x, y) => {
+            const flash = document.createElement('div');
+            flash.className = 'portal-flash';
+            flash.style.left = x + 'px';
+            flash.style.top = y + 'px';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 300);
+        };
+
+        // ========================================
+        // RANDOM POSITION (avoid YES button)
+        // ========================================
+        const getRandomPosition = () => {
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            const padding = 20;
+            
+            const yesRect = yesContainer.getBoundingClientRect();
+            
+            let x, y;
+            let attempts = 0;
+            const maxAttempts = 50;
+            
+            do {
+                x = padding + Math.random() * (window.innerWidth - btnWidth - padding * 2);
+                y = padding + Math.random() * (window.innerHeight - btnHeight - padding * 2);
+                attempts++;
+                
+                const tooClose = (
+                    x < yesRect.right + 80 &&
+                    x + btnWidth > yesRect.left - 80 &&
+                    y < yesRect.bottom + 80 &&
+                    y + btnHeight > yesRect.top - 80
+                );
+                
+                if (!tooClose || attempts >= maxAttempts) break;
+            } while (true);
+            
+            return { x, y };
+        };
+
+        // ========================================
+        // TELEPORT FUNCTION
+        // ========================================
+        const teleport = (e) => {
+            if (e.type === 'touchstart') {
+                e.preventDefault();
+            }
+            
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            const rect = noBtn.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            createPortalFlash(centerX, centerY);
+            
+            // Grow YES button AND Mr. Meeseeks!
+            yesScale += 0.1;
+            yesContainer.style.transform = `scale(${yesScale})`;
+            yesBtn.style.boxShadow = `0 0 ${20 + (yesScale - 1) * 100}px rgba(82, 255, 0, ${0.5 + (yesScale - 1) * 0.5})`;
+            
+            noBtn.classList.remove('portal-appear');
+            noBtn.classList.add('portal-jump');
+            
+            setTimeout(() => {
+                const { x, y } = getRandomPosition();
+                noBtn.style.left = x + 'px';
+                noBtn.style.top = y + 'px';
+                
+                createPortalFlash(x + noBtn.offsetWidth / 2, y + noBtn.offsetHeight / 2);
+                
+                noBtn.classList.remove('portal-jump');
+                noBtn.classList.add('portal-appear');
+                
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 250);
+            }, 150);
+        };
+
+        // Attach event listeners
+        noBtn.addEventListener('mouseover', teleport);
+        noBtn.addEventListener('touchstart', teleport, { passive: false });
+
+        // Initial position
+        const initialPos = getRandomPosition();
+        noBtn.style.left = initialPos.x + 'px';
+        noBtn.style.top = initialPos.y + 'px';
+
+        // ========================================
+        // YES BUTTON - CELEBRATION
+        // ========================================
+        const createConfetti = () => {
+            const hearts = ['💚', '💜', '💛', '🧡', '❤️', '💗', '💖', '💕', '💞', '💘'];
+            const colors = ['#52ff00', '#ff69b4', '#ff4444', '#ffff00', '#ff00ff', '#00ffff', '#ff8c00'];
+            
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'confetti';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.fontSize = (15 + Math.random() * 25) + 'px';
+                    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    heart.style.textShadow = `0 0 10px ${colors[Math.floor(Math.random() * colors.length)]}`;
+                    heart.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+                    heart.style.background = 'transparent';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 5000);
+                }, i * 40);
+            }
+        };
+
+        yesBtn.addEventListener('click', () => {
+            noBtn.style.display = 'none';
+            celebration.classList.add('show');
+            createConfetti();
+        });
+
+        // ========================================
+        // PREVENT ZOOM ON DOUBLE TAP (iOS)
+        // ========================================
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

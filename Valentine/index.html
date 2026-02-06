@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Message For You</title>
+    
+    <!-- Open Graph Tags for sharing preview -->
+    <meta property="og:title" content="A Message For You 💚" />
+    <meta property="og:description" content="You are my Valentine in 99.999% of universes. Will you be my Valentine in this universe too?" />
+    <meta property="og:image" content="https://kevinisbest.github.io/images/valentine/kiss.JPG" />
+    <meta property="og:url" content="https://kevinisbest.github.io/Valentine/" />
+    <meta property="og:type" content="website" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -121,28 +129,25 @@
            ======================================== */
         .yes-container {
             position: relative;
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             transition: transform 0.3s ease;
             z-index: 10;
         }
 
         .meeseeks {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
+            width: 300px;
             height: auto;
             pointer-events: none;
             filter: drop-shadow(0 0 20px rgba(82, 255, 0, 0.8));
             animation: meeseeks-hold 1.5s infinite ease-in-out;
-            z-index: -1;
-            margin-top: 5px;
+            margin-top: -40px;
         }
 
         @keyframes meeseeks-hold {
-            0%, 100% { transform: translateX(-50%) translateY(0) rotate(-1deg); }
-            50% { transform: translateX(-50%) translateY(-8px) rotate(1deg); }
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
         }
 
         .btn {
@@ -323,8 +328,8 @@
             }
 
             .meeseeks {
-                width: 70px;
-                margin-top: -20px;
+                width: 280px;
+                margin-top: -25px;
             }
 
             .btn {
@@ -340,8 +345,8 @@
             }
             
             .meeseeks {
-                width: 110px;
-                margin-top: -30px;
+                width: 300px;
+                margin-top: -50px;
             }
         }
     </style>
@@ -368,13 +373,13 @@
     <div class="container">
 
         <!-- Title -->
-        <h1 class="title">We are valentine in 99.999% of universes.</h1>
-        <p class="subtitle">Be my Valentine in this universe too?</p>
+        <h1 class="title">You are my Valentine in 99.999% of universes.</h1>
+        <p class="subtitle">Will you be my Valentine in this universe too?</p>
 
         <!-- YES Button with Mr. Meeseeks -->
         <div class="yes-container" id="yes-container">
-            <img src="../images/valentine/Mr_Meeseeks.png" alt="Mr. Meeseeks" class="meeseeks" id="meeseeks">
             <button class="btn btn-yes" id="yes-btn">Yes!</button>
+            <img src="../images/valentine/Mr_Meeseeks.png" alt="Mr. Meeseeks" class="meeseeks" id="meeseeks">
         </div>
         
         <!-- NO Button (will be positioned randomly) -->
@@ -603,6 +608,8 @@
         // ========================================
         // TELEPORT FUNCTION
         // ========================================
+        let teleportCount = 0; // Track number of No button clicks
+        
         const teleport = (e) => {
             if (e.type === 'touchstart') {
                 e.preventDefault();
@@ -610,6 +617,21 @@
             
             if (isAnimating) return;
             isAnimating = true;
+            
+            // Increment teleport counter
+            teleportCount++;
+            
+            // Change text and speed after 5 clicks
+            const isFastMode = teleportCount >= 5;
+            if (isFastMode) {
+                noBtn.textContent = "Don't even think about it!!!";
+                noBtn.style.fontSize = '0.8rem';
+                noBtn.style.padding = '12px 20px';
+            }
+            
+            // Animation timings - faster after 5 clicks
+            const jumpTime = isFastMode ? 50 : 150;
+            const appearTime = isFastMode ? 150 : 450;
             
             const rect = noBtn.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
@@ -637,8 +659,8 @@
                 
                 setTimeout(() => {
                     isAnimating = false;
-                }, 250);
-            }, 150);
+                }, appearTime);
+            }, jumpTime);
         };
 
         // Attach event listeners
